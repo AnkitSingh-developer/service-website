@@ -16,34 +16,34 @@ export default function HomePage() {
     <main>
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-primary/5 to-background">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-3 sm:px-4 py-8 sm:py-12 md:py-16">
           <div className="grid gap-6 md:grid-cols-2 md:gap-8">
-            <div className="flex flex-col justify-center gap-4">
-              <h1 className="text-pretty text-4xl font-semibold leading-tight md:text-5xl">
+            <div className="flex flex-col justify-center gap-3 sm:gap-4">
+              <h1 className="text-pretty text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
                 Find trusted professionals for any home service
               </h1>
-              <p className="text-muted-foreground">Compare options, check ratings, and book at your convenience.</p>
+              <p className="text-sm sm:text-base text-muted-foreground">Compare options, check ratings, and book at your convenience.</p>
               <HeroSearch />
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                 <Link
                   href="/services"
-                  className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-primary-foreground"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-primary-foreground"
                 >
                   Explore services
                 </Link>
-                <Link href="#categories" className="inline-flex items-center rounded-md border px-4 py-2">
+                <Link href="#categories" className="inline-flex items-center justify-center rounded-md border px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base">
                   Browse categories
                 </Link>
               </div>
               <p className="sr-only">Use the search to find services like cleaning, painting, plumbing, and more.</p>
             </div>
-            <div className="rounded-lg border p-4 md:p-6">
+            <div className="rounded-lg border p-3 sm:p-4 md:p-6">
               <img
                 src="https://media.istockphoto.com/id/169270269/photo/plumbers-working-on-pipes-under-sink.jpg?s=2048x2048&w=is&k=20&c=GCXUwi_A9pFFCsCkGbJXG4bHR8gKhdB4YdczrL9WroM="
                 alt="Booking a trusted professional through the app"
                 className="aspect-video w-full rounded-md object-cover"
               />
-              <p className="mt-3 text-sm text-muted-foreground">Real app screenshot example.</p>
+              <p className="mt-2 sm:mt-3 text-xs sm:text-sm text-muted-foreground">Real app screenshot example.</p>
             </div>
           </div>
         </div>
@@ -51,26 +51,28 @@ export default function HomePage() {
       
       {/* Popular Categories */}
       <section id="categories" className="bg-muted/30">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="mx-auto max-w-6xl px-3 sm:px-4 py-8 sm:py-12 md:py-16">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-balance text-2xl font-semibold">Popular categories</h2>
-          <Link href="/services" className="text-primary underline-offset-4 hover:underline">
+          <h2 className="text-balance text-xl sm:text-2xl font-semibold">Popular categories</h2>
+          <Link href="/services" className="text-sm sm:text-base text-primary underline-offset-4 hover:underline">
             See all
           </Link>
         </div>
         <CategoryGrid items={categories} />
+        
+        
         </div>
       </section>
       
       {/* Featured Services */}
-      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+      <section className="mx-auto max-w-6xl px-3 sm:px-4 py-8 sm:py-12 md:py-16">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-balance text-2xl font-semibold">Featured services</h2>
-          <Link href="/services" className="text-primary underline-offset-4 hover:underline">
+          <h2 className="text-balance text-xl sm:text-2xl font-semibold">Featured services</h2>
+          <Link href="/services" className="text-sm sm:text-base text-primary underline-offset-4 hover:underline">
             View all
           </Link>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {services.slice(0, 6).map((s) => (
             <ServiceCard key={s.id} service={s} />
           ))}
@@ -78,25 +80,25 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <h2 className="text-balance text-2xl font-semibold">How it works</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          <div className="rounded-lg border p-4">
-            <div className="mb-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium">1</div>
-            <h3 className="font-medium">Search or browse</h3>
-            <p className="text-sm text-muted-foreground">Find services by category, keywords, or top picks near you.</p>
+      <section className="mx-auto max-w-6xl px-3 sm:px-4 py-8 sm:py-12 md:py-16">
+        <h2 className="text-balance text-xl sm:text-2xl font-semibold">How it works</h2>
+        <div className="mt-4 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <div className="rounded-lg border p-3 sm:p-4">
+            <div className="mb-2 rounded-md bg-secondary px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium">1</div>
+            <h3 className="text-sm sm:text-base font-medium">Search or browse</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">Find services by category, keywords, or top picks near you.</p>
           </div>
-          <div className="rounded-lg border p-4">
-            <div className="mb-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium">2</div>
-            <h3 className="font-medium">Compare and select</h3>
-            <p className="text-sm text-muted-foreground">
-              Check prices, ratings, and what’s included. Choose what fits your needs.
+          <div className="rounded-lg border p-3 sm:p-4">
+            <div className="mb-2 rounded-md bg-secondary px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium">2</div>
+            <h3 className="text-sm sm:text-base font-medium">Compare and select</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Check prices, ratings, and what's included. Choose what fits your needs.
             </p>
           </div>
-          <div className="rounded-lg border p-4">
-            <div className="mb-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium">3</div>
-            <h3 className="font-medium">Book instantly</h3>
-            <p className="text-sm text-muted-foreground">Pick date and time. Pros confirm, you pay after service.</p>
+          <div className="rounded-lg border p-3 sm:p-4 sm:col-span-2 md:col-span-1">
+            <div className="mb-2 rounded-md bg-secondary px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium">3</div>
+            <h3 className="text-sm sm:text-base font-medium">Book instantly</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">Pick date and time. Pros confirm, you pay after service.</p>
           </div>
         </div>
       </section>
@@ -126,7 +128,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* App Download Section */}
+      {/* App Download Section
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-8 rounded-2xl border bg-gradient-to-br from-primary/10 to-background p-8 md:grid-cols-2 md:p-12">
           <div>
@@ -169,7 +171,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials */}
       <section className="bg-muted/30">
