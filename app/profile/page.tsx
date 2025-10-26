@@ -23,15 +23,16 @@ import {
   Phone,
   MapPin,
   Calendar,
-  Star,
-  Heart,
   Settings,
   Edit,
   Save,
   X,
   Plus,
   Trash2,
-  CreditCard,
+  ArrowLeft,
+  Award,
+  Clock,
+  CheckCircle,
 } from "lucide-react"
 
 export default function ProfilePage() {
@@ -77,25 +78,6 @@ export default function ProfilePage() {
     },
   ])
 
-  const [favorites] = useState([
-    {
-      id: '1',
-      title: 'Deep Home Cleaning',
-      category: 'Home Cleaning',
-      price: 2499,
-      rating: 4.8,
-      image: '/images/services/deep-home-cleaning.jpg',
-    },
-    {
-      id: '2',
-      title: 'Salon at Home for Women',
-      category: 'Salon at Home',
-      price: 1299,
-      rating: 4.9,
-      image: '/images/services/salon-at-home-women.jpg',
-    },
-  ])
-
   const [addresses, setAddresses] = useState([
     {
       id: '1',
@@ -108,16 +90,6 @@ export default function ProfilePage() {
       type: 'Office',
       address: '456, Office Tower, BKC, Mumbai - 400051',
       isDefault: false,
-    },
-  ])
-
-  const [paymentMethods] = useState([
-    {
-      id: '1',
-      type: 'Credit Card',
-      last4: '4242',
-      expiry: '12/25',
-      isDefault: true,
     },
   ])
 
@@ -141,143 +113,192 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">My Profile</h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Manage your account settings and preferences</p>
-            </div>
-            <Button variant="outline" asChild className="self-start sm:self-auto">
-              <Link href="/">← Back to Home</Link>
+      {/* Hero Header */}
+      <section className="bg-gradient-to-b from-primary/5 to-background">
+        <div className="mx-auto max-w-6xl px-3 sm:px-4 py-8 sm:py-12 md:py-16">
+          <div className="mb-6 sm:mb-8">
+            <Button variant="ghost" asChild className="mb-4">
+              <Link href="/" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Back to Home
+              </Link>
             </Button>
           </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+            <div className="flex flex-col justify-center gap-4">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="h-8 w-8 sm:h-10 sm:w-10 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-bold">{user.name}</h1>
+                  <p className="text-sm sm:text-base text-muted-foreground">Member since {user.memberSince}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary" className="flex items-center gap-1">
+                  <CheckCircle className="h-3 w-3" />
+                  Verified Customer
+                </Badge>
+                <Badge variant="outline" className="flex items-center gap-1">
+                  <Award className="h-3 w-3" />
+                  {user.totalBookings} Bookings
+                </Badge>
+              </div>
+            </div>
+            
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-lg border bg-background p-4 text-center">
+                <div className="text-2xl font-bold text-primary">{user.totalBookings}</div>
+                <div className="text-xs text-muted-foreground">Total Bookings</div>
+              </div>
+              <div className="rounded-lg border bg-background p-4 text-center">
+                <div className="text-2xl font-bold text-green-600">{user.activeBookings}</div>
+                <div className="text-xs text-muted-foreground">Active Bookings</div>
+              </div>
+              <div className="rounded-lg border bg-background p-4 text-center">
+                <div className="text-2xl font-bold text-purple-600">₹12,450</div>
+                <div className="text-xs text-muted-foreground">Total Spent</div>
+              </div>
+              <div className="rounded-lg border bg-background p-4 text-center">
+                <div className="text-2xl font-bold text-blue-600">2</div>
+                <div className="text-xs text-muted-foreground">Saved Addresses</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
+      
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-6 sm:py-8">
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="profile">
-              <User className="mr-2 h-4 w-4" />
-              Profile
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
-            <TabsTrigger value="bookings">
-              <Calendar className="mr-2 h-4 w-4" />
-              My Bookings
+            <TabsTrigger value="bookings" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span className="hidden sm:inline">Bookings</span>
             </TabsTrigger>
-            <TabsTrigger value="favorites">
-              <Heart className="mr-2 h-4 w-4" />
-              Favorites
-            </TabsTrigger>
-            <TabsTrigger value="settings">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
+            <TabsTrigger value="settings" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Settings</span>
             </TabsTrigger>
           </TabsList>
 
           {/* Profile Tab */}
           <TabsContent value="profile">
-            <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
-              <Card>
-                <CardHeader className="pb-3 sm:pb-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
-                    <CardTitle className="text-lg sm:text-xl">Personal Information</CardTitle>
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
+              {/* Personal Information Card */}
+              <Card className="lg:col-span-2">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-xl">Personal Information</CardTitle>
                     {!isEditing ? (
-                      <Button variant="outline" size="sm" onClick={() => setIsEditing(true)} className="self-start sm:self-auto">
-                        <Edit className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                        <span className="text-xs sm:text-sm">Edit</span>
+                      <Button variant="outline" size="sm" type="button" onClick={() => setIsEditing(true)}>
+                        <Edit className="mr-2 h-4 w-4" />
+                        Edit Profile
                       </Button>
                     ) : (
                       <div className="flex gap-2">
-                        <Button size="sm" onClick={handleSave} className="text-xs sm:text-sm">
-                          <Save className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                          Save
+                        <Button size="sm" type="button" onClick={handleSave}>
+                          <Save className="mr-2 h-4 w-4" />
+                          Save Changes
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => setIsEditing(false)} className="text-xs sm:text-sm">
-                          <X className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                        <Button variant="outline" size="sm" type="button" onClick={() => setIsEditing(false)}>
+                          <X className="mr-2 h-4 w-4" />
                           Cancel
                         </Button>
                       </div>
                     )}
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-muted flex items-center justify-center">
-                      <User className="h-6 w-6 sm:h-8 sm:w-8" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm sm:text-base font-semibold">{user.name}</h3>
-                      <p className="text-xs sm:text-sm text-muted-foreground">Member since {user.memberSince}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 sm:space-y-3">
-                    <div>
-                      <Label htmlFor="name" className="text-xs sm:text-sm">Full Name</Label>
+                <CardContent className="space-y-6">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
                       {isEditing ? (
-                        <Input id="name" value={user.name} onChange={(e) => setUser({...user, name: e.target.value})} className="text-xs sm:text-sm" />
+                        <Input id="name" value={user.name} onChange={(e) => setUser({...user, name: e.target.value})} />
                       ) : (
-                        <p className="mt-1 text-xs sm:text-sm">{user.name}</p>
+                        <div className="flex items-center gap-2 p-3 rounded-lg border bg-muted/50">
+                          <User className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">{user.name}</span>
+                        </div>
                       )}
                     </div>
-                    <div>
-                      <Label htmlFor="email" className="text-xs sm:text-sm">Email</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
                       {isEditing ? (
-                        <Input id="email" type="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} className="text-xs sm:text-sm" />
+                        <Input id="email" type="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})} />
                       ) : (
-                        <p className="mt-1 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-                          <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-                          {user.email}
-                        </p>
+                        <div className="flex items-center gap-2 p-3 rounded-lg border bg-muted/50">
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">{user.email}</span>
+                        </div>
                       )}
                     </div>
-                    <div>
-                      <Label htmlFor="phone" className="text-xs sm:text-sm">Phone</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone" className="text-sm font-medium">Phone Number</Label>
                       {isEditing ? (
-                        <Input id="phone" value={user.phone} onChange={(e) => setUser({...user, phone: e.target.value})} className="text-xs sm:text-sm" />
+                        <Input id="phone" value={user.phone} onChange={(e) => setUser({...user, phone: e.target.value})} />
                       ) : (
-                        <p className="mt-1 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
-                          <Phone className="h-3 w-3 sm:h-4 sm:w-4" />
-                          {user.phone}
-                        </p>
+                        <div className="flex items-center gap-2 p-3 rounded-lg border bg-muted/50">
+                          <Phone className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">{user.phone}</span>
+                        </div>
                       )}
                     </div>
-                    <div>
-                      <Label htmlFor="address" className="text-xs sm:text-sm">Address</Label>
+                    <div className="space-y-2 sm:col-span-2">
+                      <Label htmlFor="address" className="text-sm font-medium">Address</Label>
                       {isEditing ? (
-                        <Textarea id="address" value={user.address} onChange={(e) => setUser({...user, address: e.target.value})} className="text-xs sm:text-sm" />
+                        <Textarea id="address" value={user.address} onChange={(e) => setUser({...user, address: e.target.value})} />
                       ) : (
-                        <p className="mt-1 flex items-start gap-1 sm:gap-2 text-xs sm:text-sm">
-                          <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mt-0.5" />
-                          {user.address}
-                        </p>
+                        <div className="flex items-start gap-2 p-3 rounded-lg border bg-muted/50">
+                          <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
+                          <span className="text-sm">{user.address}</span>
+                        </div>
                       )}
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
+              {/* Account Overview Card */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Account Stats</CardTitle>
+                  <CardTitle className="text-lg">Account Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total Bookings</span>
-                    <span className="font-bold">{user.totalBookings}</span>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-2">
+                      <Award className="h-4 w-4 text-primary" />
+                      <span className="text-sm font-medium">Total Bookings</span>
+                    </div>
+                    <span className="text-lg font-bold text-primary">{user.totalBookings}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Active Bookings</span>
-                    <span className="font-bold">{user.activeBookings}</span>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium">Active Bookings</span>
+                    </div>
+                    <span className="text-lg font-bold text-green-600">{user.activeBookings}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Member Since</span>
-                    <span className="font-bold">{user.memberSince}</span>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-blue-600" />
+                      <span className="text-sm font-medium">Member Since</span>
+                    </div>
+                    <span className="text-sm font-bold text-blue-600">{user.memberSince}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Account Status</span>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium">Status</span>
+                    </div>
                     <Badge className="bg-green-500">Active</Badge>
                   </div>
                 </CardContent>
@@ -287,117 +308,93 @@ export default function ProfilePage() {
 
           {/* Bookings Tab */}
           <TabsContent value="bookings">
-            <Card>
-              <CardHeader>
-                <CardTitle>My Bookings</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Service</TableHead>
-                      <TableHead>Provider</TableHead>
-                      <TableHead>Date & Time</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {bookings.map((booking) => (
-                      <TableRow key={booking.id}>
-                        <TableCell className="font-medium">{booking.service}</TableCell>
-                        <TableCell>{booking.provider}</TableCell>
-                        <TableCell>
-                          <div className="text-sm">
-                            <div>{booking.date}</div>
-                            <div className="text-muted-foreground">{booking.time}</div>
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">My Bookings</h2>
+                  <p className="text-muted-foreground">Track your service bookings and history</p>
+                </div>
+                <Button asChild>
+                  <Link href="/services">Book New Service</Link>
+                </Button>
+              </div>
+              
+              <div className="grid gap-4">
+                {bookings.map((booking) => (
+                  <Card key={booking.id} className="hover:shadow-md transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-start gap-4">
+                            <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                              <Calendar className="h-6 w-6 text-primary" />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg">{booking.service}</h3>
+                              <p className="text-sm text-muted-foreground">Provider: {booking.provider}</p>
+                              <div className="flex items-center gap-4 mt-2">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                                  <span className="text-sm">{booking.date}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-4 w-4 text-muted-foreground" />
+                                  <span className="text-sm">{booking.time}</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </TableCell>
-                        <TableCell>₹{booking.price}</TableCell>
-                        <TableCell>{getStatusBadge(booking.status)}</TableCell>
-                        <TableCell>
-                          <Button size="sm" variant="outline">View Details</Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3">
+                          <div className="text-right">
+                            <div className="text-2xl font-bold">₹{booking.price}</div>
+                            <div className="text-sm text-muted-foreground">Total Amount</div>
+                          </div>
+                          <div className="flex flex-col sm:flex-row gap-2">
+                            {getStatusBadge(booking.status)}
+                            <Button size="sm" variant="outline">View Details</Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
           </TabsContent>
 
-          {/* Favorites Tab */}
-          <TabsContent value="favorites">
-            <Card>
-              <CardHeader>
-                <CardTitle>Favorite Services</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6 md:grid-cols-2">
-                  {favorites.map((service) => (
-                    <div key={service.id} className="group rounded-lg border overflow-hidden">
-                      <div className="relative aspect-video overflow-hidden">
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                        />
-                        <button className="absolute top-2 right-2 rounded-full bg-white p-2 shadow-md">
-                          <Heart className="h-4 w-4 fill-red-500 text-red-500" />
-                        </button>
-                      </div>
-                      <div className="p-4">
-                        <Badge variant="secondary" className="mb-2">{service.category}</Badge>
-                        <h3 className="font-semibold">{service.title}</h3>
-                        <div className="mt-2 flex items-center justify-between">
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                            <span className="text-sm font-medium">{service.rating}</span>
-                          </div>
-                          <span className="font-bold">₹{service.price}</span>
-                        </div>
-                        <Button className="mt-4 w-full" size="sm" asChild>
-                          <Link href={`/services/${service.id}`}>Book Now</Link>
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {favorites.length === 0 && (
-                  <div className="text-center py-8">
-                    <Heart className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <p className="mt-4 text-muted-foreground">No favorite services yet</p>
-                    <Button className="mt-4" asChild>
-                      <Link href="/services">Browse Services</Link>
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           {/* Settings Tab */}
           <TabsContent value="settings">
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold">Account Settings</h2>
+                <p className="text-muted-foreground">Manage your saved addresses</p>
+              </div>
+              
               <Card>
                 <CardHeader>
-                  <CardTitle>Saved Addresses</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    Saved Addresses
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-4">
                   {addresses.map((address) => (
-                    <div key={address.id} className="rounded-lg border p-3">
+                    <div key={address.id} className="rounded-lg border p-4 hover:shadow-sm transition-shadow">
                       <div className="flex items-start justify-between">
-                        <div>
-                          <p className="font-medium">{address.type}</p>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <p className="font-medium">{address.type}</p>
+                            {address.isDefault && <Badge variant="secondary">Default</Badge>}
+                          </div>
                           <p className="text-sm text-muted-foreground">{address.address}</p>
                         </div>
                         <div className="flex gap-2">
-                          {address.isDefault && <Badge variant="secondary">Default</Badge>}
                           <Button size="sm" variant="ghost">
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button size="sm" variant="ghost">
+                          <Button size="sm" variant="ghost" className="text-red-600 hover:text-red-700">
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
@@ -407,32 +404,6 @@ export default function ProfilePage() {
                   <Button variant="outline" className="w-full">
                     <Plus className="mr-2 h-4 w-4" />
                     Add New Address
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Payment Methods</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {paymentMethods.map((method) => (
-                    <div key={method.id} className="rounded-lg border p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <CreditCard className="h-8 w-8 text-muted-foreground" />
-                          <div>
-                            <p className="font-medium">{method.type} •••• {method.last4}</p>
-                            <p className="text-sm text-muted-foreground">Expires {method.expiry}</p>
-                          </div>
-                        </div>
-                        {method.isDefault && <Badge variant="secondary">Default</Badge>}
-                      </div>
-                    </div>
-                  ))}
-                  <Button variant="outline" className="w-full">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Payment Method
                   </Button>
                 </CardContent>
               </Card>

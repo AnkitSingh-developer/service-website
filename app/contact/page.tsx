@@ -1,6 +1,5 @@
 "use client"
 
-import type { Metadata } from "next"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -134,8 +133,8 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold">Email</h3>
                   <p className="mt-1 text-sm text-muted-foreground">Send us an email anytime</p>
-                  <p className="mt-2 font-medium">support@urbanserve.com</p>
-                  <p className="text-sm text-muted-foreground">info@urbanserve.com</p>
+                  <p className="mt-2 font-medium">support@helpguru.com</p>
+                  <p className="text-sm text-muted-foreground">info@helpguru.com</p>
                 </div>
               </div>
 

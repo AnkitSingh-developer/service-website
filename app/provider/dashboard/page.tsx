@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Table,
   TableBody,
@@ -28,7 +31,13 @@ import {
   Settings,
   Bell,
   LogOut,
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
 } from "lucide-react"
+import { categories, getSubCategories } from "@/lib/data/categories"
 
 export default function ProviderDashboardPage() {
   // Mock data - would come from API
@@ -45,6 +54,15 @@ export default function ProviderDashboardPage() {
     thisMonthEarnings: 23500,
     availability: true,
   })
+
+  // Service management state
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['plumbing'])
+  const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>(['plumber-on-call', 'tap-repair'])
+  const [servicePricing, setServicePricing] = useState<Record<string, string>>({
+    'plumber-on-call': '450',
+    'tap-repair': '350',
+  })
+  const [isEditingServices, setIsEditingServices] = useState(false)
 
   const [bookings] = useState([
     {
@@ -116,6 +134,48 @@ export default function ProviderDashboardPage() {
     },
   ])
 
+  // Service management functions
+  const handleCategoryToggle = (categoryId: string) => {
+    const isSelected = selectedCategories.includes(categoryId)
+    if (isSelected) {
+      // Remove category and its subcategories
+      const category = categories.find(c => c.id === categoryId)
+      const categorySubCategories = category?.subCategories?.map(sc => sc.id) || []
+      const updatedSubCategories = selectedSubCategories.filter(
+        subId => !categorySubCategories.includes(subId)
+      )
+      const updatedPricing = { ...servicePricing }
+      categorySubCategories.forEach(subId => delete updatedPricing[subId])
+      
+      setSelectedCategories(selectedCategories.filter(id => id !== categoryId))
+      setSelectedSubCategories(updatedSubCategories)
+      setServicePricing(updatedPricing)
+    } else {
+      setSelectedCategories([...selectedCategories, categoryId])
+    }
+  }
+
+  const handleSubCategoryToggle = (subCategoryId: string) => {
+    const isSelected = selectedSubCategories.includes(subCategoryId)
+    if (isSelected) {
+      // Remove subcategory and its pricing
+      const updatedPricing = { ...servicePricing }
+      delete updatedPricing[subCategoryId]
+      
+      setSelectedSubCategories(selectedSubCategories.filter(id => id !== subCategoryId))
+      setServicePricing(updatedPricing)
+    } else {
+      setSelectedSubCategories([...selectedSubCategories, subCategoryId])
+    }
+  }
+
+  const handlePricingChange = (subCategoryId: string, price: string) => {
+    setServicePricing({
+      ...servicePricing,
+      [subCategoryId]: price
+    })
+  }
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'confirmed':
@@ -133,33 +193,7 @@ export default function ProviderDashboardPage() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      {/* Top Navigation */}
-      <header className="sticky top-0 z-50 border-b bg-background">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <span className="text-xl font-bold">U</span>
-              </div>
-              <span className="text-xl font-bold">Provider Portal</span>
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Settings className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 py-6 sm:py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Welcome back, {provider.name}!</h1>
@@ -226,22 +260,22 @@ export default function ProviderDashboardPage() {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="bookings" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="bookings">
-              <Calendar className="mr-2 h-4 w-4" />
-              Bookings
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+            <TabsTrigger value="bookings" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span className="hidden sm:inline">Bookings</span>
             </TabsTrigger>
-            <TabsTrigger value="completed">
-              <CheckCircle className="mr-2 h-4 w-4" />
-              Completed
+            <TabsTrigger value="services" className="flex items-center gap-2">
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Services</span>
             </TabsTrigger>
-            <TabsTrigger value="earnings">
-              <DollarSign className="mr-2 h-4 w-4" />
-              Earnings
+            <TabsTrigger value="earnings" className="flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Earnings</span>
             </TabsTrigger>
-            <TabsTrigger value="profile">
-              <User className="mr-2 h-4 w-4" />
-              Profile
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Profile</span>
             </TabsTrigger>
           </TabsList>
 
@@ -296,43 +330,139 @@ export default function ProviderDashboardPage() {
             </Card>
           </TabsContent>
 
-          {/* Completed Tab */}
-          <TabsContent value="completed">
-            <Card>
-              <CardHeader>
-                <CardTitle>Completed Jobs</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Service</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Rating</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {completedBookings.map((booking) => (
-                      <TableRow key={booking.id}>
-                        <TableCell className="font-medium">{booking.service}</TableCell>
-                        <TableCell>{booking.customer}</TableCell>
-                        <TableCell>{booking.date}</TableCell>
-                        <TableCell>₹{booking.price}</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-1">
-                            {booking.rating}
-                            <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
+          {/* Services Tab */}
+          <TabsContent value="services">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">Service Management</h2>
+                  <p className="text-muted-foreground">Manage your service categories and pricing</p>
+                </div>
+                <Button 
+                  onClick={() => setIsEditingServices(!isEditingServices)}
+                  variant={isEditingServices ? "outline" : "default"}
+                  type="button"
+                >
+                  {isEditingServices ? (
+                    <>
+                      <X className="mr-2 h-4 w-4" />
+                      Cancel
+                    </>
+                  ) : (
+                    <>
+                      <Edit className="mr-2 h-4 w-4" />
+                      Edit Services
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              <div className="grid gap-6 lg:grid-cols-2">
+                {/* Categories Selection */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Service Categories</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid gap-3">
+                      {categories.map((category) => (
+                        <div key={category.id} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`category-${category.id}`}
+                            checked={selectedCategories.includes(category.id)}
+                            onCheckedChange={() => handleCategoryToggle(category.id)}
+                            disabled={!isEditingServices}
+                          />
+                          <label htmlFor={`category-${category.id}`} className="flex items-center gap-2 text-sm font-medium">
+                            <span>{category.emoji}</span>
+                            <span>{category.title}</span>
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Subcategories and Pricing */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Service Details & Pricing</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {selectedCategories.length > 0 ? (
+                      <div className="space-y-4">
+                        {selectedCategories.map(categoryId => {
+                          const category = categories.find(c => c.id === categoryId)
+                          return category?.subCategories?.map((subCategory) => (
+                            <div key={subCategory.id} className="rounded-lg border p-4 bg-muted/30">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                  <Checkbox
+                                    id={`subcategory-${subCategory.id}`}
+                                    checked={selectedSubCategories.includes(subCategory.id)}
+                                    onCheckedChange={() => handleSubCategoryToggle(subCategory.id)}
+                                    disabled={!isEditingServices}
+                                  />
+                                  <div>
+                                    <p className="font-medium">{subCategory.title}</p>
+                                    <p className="text-sm text-muted-foreground">{category.title}</p>
+                                  </div>
+                                </div>
+                              </div>
+                              {selectedSubCategories.includes(subCategory.id) && (
+                                <div className="flex items-center gap-2">
+                                  <Label htmlFor={`price-${subCategory.id}`} className="text-sm font-medium">
+                                    ₹/hour
+                                  </Label>
+                                  <Input
+                                    id={`price-${subCategory.id}`}
+                                    type="number"
+                                    value={servicePricing[subCategory.id] || ""}
+                                    onChange={(e) => handlePricingChange(subCategory.id, e.target.value)}
+                                    placeholder="e.g., 200"
+                                    className="w-24"
+                                    disabled={!isEditingServices}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        }).flat()}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <Settings className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground">Select categories to manage your services</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              {isEditingServices && (
+                <div className="flex justify-end gap-2">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setIsEditingServices(false)}
+                    type="button"
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      // Save changes logic here
+                      setIsEditingServices(false)
+                    }}
+                    type="button"
+                  >
+                    <Save className="mr-2 h-4 w-4" />
+                    Save Changes
+                  </Button>
+                </div>
+              )}
+            </div>
           </TabsContent>
+
 
           {/* Earnings Tab */}
           <TabsContent value="earnings">
@@ -448,7 +578,15 @@ export default function ProviderDashboardPage() {
                       <p className="text-sm text-muted-foreground">Accept new bookings</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" checked={provider.availability} className="sr-only peer" />
+                      <input 
+                        type="checkbox" 
+                        checked={provider.availability} 
+                        onChange={() => {
+                          // Handle availability toggle
+                          console.log('Availability toggled')
+                        }}
+                        className="sr-only peer" 
+                      />
                       <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>

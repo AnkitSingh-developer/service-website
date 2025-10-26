@@ -7,7 +7,7 @@ import { ServiceCard } from "@/components/service-card"
 import { categories } from "@/lib/data/categories"
 
 export const metadata: Metadata = {
-  title: "Home Services Marketplace",
+  title: "Helpguru - Home Services Marketplace",
   description: "Book trusted professionals for home services.",
 }
 

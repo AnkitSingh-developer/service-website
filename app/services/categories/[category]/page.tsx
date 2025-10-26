@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: { category: string 
     }
   }
   return {
-    title: `${category.title} Services - UrbanServe`,
+    title: `${category.title} Services - Helpguru`,
     description: category.description || `Browse ${category.title} services`,
   }
 }
@@ -76,7 +76,7 @@ export default function CategoryPage({ params, searchParams }: { params: { categ
               <Link href={`/services/categories/${params.category}`}>
                 <Badge 
                   variant={!subcategoryFilter ? "default" : "outline"}
-                  className="cursor-pointer px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
+                  className="px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
                 >
                   All {category.title}
                 </Badge>
@@ -88,7 +88,7 @@ export default function CategoryPage({ params, searchParams }: { params: { categ
                 >
                   <Badge 
                     variant={subcategoryFilter === subcat.slug ? "default" : "outline"}
-                    className="cursor-pointer px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
+                    className="px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
                   >
                     {subcat.title}
                   </Badge>

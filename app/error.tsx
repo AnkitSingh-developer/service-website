@@ -34,7 +34,7 @@ export default function Error({
         </div>
         
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <Button onClick={reset}>
+          <Button type="button" onClick={reset}>
             <RefreshCw className="mr-2 h-4 w-4" />
             Try Again
           </Button>

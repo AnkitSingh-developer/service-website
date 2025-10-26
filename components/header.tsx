@@ -25,9 +25,9 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <span className="text-lg font-bold">U</span>
+            <span className="text-lg font-bold">H</span>
           </div>
-          <span className="text-xl font-bold">UrbanServe</span>
+          <span className="text-xl font-bold">Helpguru</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -147,9 +147,9 @@ export function Header() {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                      <span className="text-lg font-bold">U</span>
+                      <span className="text-lg font-bold">H</span>
                     </div>
-                    <span className="text-lg font-bold">UrbanServe</span>
+                    <span className="text-lg font-bold">Helpguru</span>
                   </div>
                 </div>
 

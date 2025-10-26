@@ -52,7 +52,7 @@ export default function ServicesPage({
                 >
                   <Badge 
                     variant={subcategory === subcat.title ? "default" : "outline"}
-                    className="cursor-pointer px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
+                    className="px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
                   >
                     {cat.emoji} {subcat.title}
                   </Badge>

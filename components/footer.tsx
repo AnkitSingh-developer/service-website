@@ -50,9 +50,9 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <span className="text-xl font-bold">U</span>
+                <span className="text-xl font-bold">H</span>
               </div>
-              <span className="text-xl font-bold">UrbanServe</span>
+              <span className="text-xl font-bold">Helpguru</span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground">
               India's largest home services platform. Book trusted professionals for cleaning, repairs, beauty services, and more.
@@ -66,7 +66,7 @@ export function Footer() {
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <span>support@urbanserve.com</span>
+                <span>support@helpguru.com</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -168,7 +168,7 @@ export function Footer() {
         <div className="mt-12 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} UrbanServe. All rights reserved.
+              © {currentYear} Helpguru. All rights reserved.
             </p>
             <div className="flex space-x-4 text-sm text-muted-foreground">
               <Link href="/terms" className="hover:text-primary">
